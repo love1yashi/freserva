@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Image
                     const img = document.createElement('img');
-                    img.src = item.img || '../assets/broccolii.png';
+                    img.src = item.img || '..//assets/broccolii.png';
                     img.alt = item.name;
                     itemDiv.appendChild(img);
 

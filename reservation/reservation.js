@@ -30,29 +30,29 @@ document.addEventListener('DOMContentLoaded', function () {
                     cardEl.innerHTML = `
                         <div class="item-top-section">
                             <div class="item-visual">
-                                <img src="${item.img || '../assets/broccolii.png'}" alt="${item.name}" class="item-image">
+                                <img src="${item.img || '..//assets/broccolii.png'}" alt="${item.name}" class="item-image">
                             </div>
                             <div class="item-details">
                                 <h3 class="item-name">${item.name}</h3>
                                 <p class="item-price">${item.price}</p>
                                 <p class="item-quantity">Quantity: ${item.qty}</p>
                                 <div class="vendor-name">
-                                    <img src="${item.vendorIcon || '../assets/alingmyrnaa.png'}" alt="Vendor" class="vendor-icon">
+                                    <img src="${item.vendorIcon || '..//assets/alingmyrnaa.png'}" alt="Vendor" class="vendor-icon">
                                     <span>${item.vendor || 'Aling Myrna\'s stall'}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="delivery-info">
                             <p class="info-line">
-                                <img src="../assets/calendar.png" alt="Calendar" class="info-icon">
+                                <img src="..//assets/calendar.png" alt="Calendar" class="info-icon">
                                 <span class="info-value"><strong>Delivery date:</strong> ${reservation.deliveryDate || 'July 05, 2025'}</span>
                             </p>
                             <p class="info-line">
-                                <img src="../assets/clock.png" alt="Clock" class="info-icon">
+                                <img src="..//assets/clock.png" alt="Clock" class="info-icon">
                                 <span class="info-value"><strong>Delivery time:</strong> ${reservation.deliveryTime || '1:00 PM - 2:00 PM'}</span>
                             </p>
                             <p class="info-line">
-                                <img src="../assets/location.png" alt="Location" class="info-icon">
+                                <img src="..//assets/location.png" alt="Location" class="info-icon">
                                 <span class="info-value address"><strong>Delivery address:</strong> ${reservation.address || '123 abc street barangay Addition hills, Mandaluyong City 1550'}</span>
                             </p>
                         </div>

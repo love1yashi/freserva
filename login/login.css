@@ -5,7 +5,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: url("../assets/back1.jpg") no-repeat center center fixed;
+    background: url("..//assets/back1.jpg") no-repeat center center fixed;
     background-size: cover;
     font-family: Arial, sans-serif;
 }

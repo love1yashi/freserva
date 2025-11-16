@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 price: productPrice,
                 img: productImg,
                 vendor: 'Mandaluyong Wet Market', // Assuming default vendor
-                vendorIcon: '../assets/vendors.png', // Assuming default icon
+                vendorIcon: '..//assets/vendors.png', // Assuming default icon
                 reservedAt: new Date().toISOString()
             };
 
@@ -195,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Set image source and accessibility attributes
-    cartImg.src = '../assets/cart.png';
+    cartImg.src = '..//assets/cart.png';
     cartImg.alt = 'Cart';
 
     // Visible icon size 32x32, keep hit target >= 44x44
