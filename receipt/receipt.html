@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FRESERVA | Delivery Status & Order Details</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="../index/index.css">
+  <link rel="stylesheet" href="../cart/cart.css">
+
+  <script>
+      // Set account button text immediately to prevent flicker
+      document.addEventListener('DOMContentLoaded', function() {
+          const accountBtn = document.getElementById('accountBtn');
+          const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+          if (user) {
+              accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+          } else {
+              accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+          }
+      });
+  </script>
+
+  <style>
+    /* CSS placed inline for simplicity; can be moved to external CSS */
+    :root {
+      --primary-green: #3f7a2f;
+      --background: #dbe2cd;
+      --card-bg: #ffffff;
+      --border-color: #37542f;
+      --text-dark: #222;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--background);
+      margin: 0;
+      padding: 0 40px;
+      color: var(--text-dark);
+    }
+
+    header.navbar {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+      padding: 15px 0;
+      background: var(--card-bg);
+      border-radius: 8px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    header.navbar .menu-btn {
+      background: var(--primary-green);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    header.navbar .logo {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      border: 3px solid var(--primary-green);
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    header.navbar .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    nav.main-nav {
+      display: flex;
+      gap: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      flex-grow: 1;
+    }
+
+    nav.main-nav a {
+      color: var(--primary-green);
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+    }
+
+    nav.main-nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      width: 100%;
+      height: 3px;
+      background: var(--primary-green);
+      border-radius: 3px;
+    }
+
+    nav.main-nav a svg,
+    nav.main-nav a img {
+      width: 22px;
+      height: 22px;
+      fill: var(--primary-green);
+    }
+
+    nav.main-nav a span {
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-account-cart {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .account-dropdown {
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+
+    .account-dropdown span.dropdown-arrow {
+      margin-left: 6px;
+      font-size: 12px;
+    }
+
+    .cart-btn {
+      background: var(--primary-green);
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+
+    .cart-btn svg {
+      fill: white;
+      width: 24px;
+      height: 24px;
+    }
+
+    /* Main content grid */
+    main.content {
+      display: flex;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 40px auto;
+      background: var(--card-bg);
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+      color: var(--text-dark);
+    }
+
+    /* Left section: map + arrival + contact rider */
+    section.map-arrival-contact {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    iframe.map {
+      width: 100%;
+      height: 230px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+
+    .arrival-info {
+      border: 1.5px solid var(--border-color);
+      background: var(--card-bg);
+      padding: 20px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 100%;
+      max-width: 520px;
+      box-sizing: border-box;
+    }
+
+    .arrival-info p {
+      margin: 0 0 12px 0;
+      line-height: 1.3;
+    }
+
+    .arrival-info p strong {
+      font-weight: 700;
+    }
+
+    .progress-bars {
+      display: flex;
+      gap: 30px;
+      margin: 12px 0;
+    }
+
+    .progress-bars span {
+      display: inline-block;
+      height: 6px;
+      border-radius: 30px;
+      background: var(--primary-green);
+      transition: width 0.3s ease;
+    }
+
+    .progress-bars .bar1,
+    .progress-bars .bar2,
+    .progress-bars .bar3 {
+      width: 70px;
+    }
+
+    .progress-bars .bar4 {
+      width: 140px;
+    }
+
+    .status-text {
+      font-weight: 700;
+      margin-top: 0;
+    }
+
+    /* Contact rider */
+    .contact-rider {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1.5px solid var(--border-color);
+      background: var(--card-bg);
+      padding: 10px 20px;
+      border-radius: 6px;
+      width: 100%;
+      max-width: 520px;
+      box-sizing: border-box;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: default;
+    }
+
+    .contact-rider .rider-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .rider-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-green);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .rider-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: brightness(0) invert(1);
+    }
+
+    .contact-chat-btn {
+      border: 1px solid var(--primary-green);
+      background: transparent;
+      color: var(--primary-green);
+      border-radius: 6px;
+      padding: 6px 12px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      user-select: none;
+    }
+
+    .contact-chat-btn:hover {
+      background-color: var(--primary-green);
+      color: white;
+    }
+
+    /* Right section: order details */
+    section.order-details {
+      flex: 1;
+      font-size: 14px;
+      color: var(--text-dark);
+      border-left: 2px solid var(--border-color);
+      padding-left: 40px;
+      max-width: 480px;
+      box-sizing: border-box;
+    }
+
+    .order-details-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .order-icon {
+      font-size: 28px;
+      color: var(--primary-green);
+    }
+
+    .order-details h2 {
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .order-market {
+      font-weight: 700;
+      font-size: 16px;
+      margin-top: 0;
+      margin-bottom: 4px;
+    }
+
+    .order-number {
+      margin: 0 0 16px 0;
+      color: #444;
+      font-size: 13px;
+    }
+
+    table.order-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    table.order-table td {
+      padding: 8px 0px;
+    }
+
+    table.order-table tr td:first-child {
+      width: 30px;
+      text-align: left;
+    }
+
+    table.order-table tr td:nth-child(2) {
+      width: 140px;
+      text-align: left;
+    }
+
+    table.order-table tr td:nth-child(3) {
+      width: 40px;
+      text-align: center;
+    }
+
+    table.order-table tr td:last-child {
+      width: 80px;
+      text-align: right;
+    }
+
+    .order-totals {
+      font-weight: 600;
+      font-size: 14px;
+      border-top: 1.5px solid var(--border-color);
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 10px 0;
+      margin-bottom: 12px;
+    }
+
+    .order-totals div {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .order-totals .total {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .payment-icon {
+      width: 38px;
+      height: 24px;
+      border: 2px solid var(--primary-green);
+      border-radius: 4px;
+      text-align: center;
+      font-size: 20px;
+      color: var(--primary-green);
+      line-height: 18px;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <header class="header">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+        <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+            <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+            <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+        </svg>
+    </button>
+
+    <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+        <div class="sidebar-header">
+            <h2>VENDOR DASHBOARD</h2>
+            <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+        </div>
+        <div class="sidebar-content">
+            <a href="../menu/inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+            <a href="../menu/menu.html">Performance Report</a>
+        </div>
+    </div>
+
+    <div class="logo">
+        <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+    </div>
+
+    <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+        <a href="../index/index.html" class="nav-item">
+            <img src="../assets/home.png" class="icon" alt="Home">
+            <span>HOME</span>
+        </a>
+        <a href="../reservation/reservation.html" class="nav-item" data-requires-auth="true">
+            <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+            <span>MY RESERVATION</span>
+        </a>
+        <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+            <img src="../assets/vendors.png" class="icon" alt="Vendors">
+            <span>VENDORS</span>
+        </a>
+        <a href="../about/about.html" class="nav-item">
+            <img src="../assets/about.png" class="icon" alt="About Us">
+            <span>ABOUT US</span>
+        </a>
+    </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span>ACCOUNT</span>
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+</header>
+
+  <main class="content" role="main" aria-label="Delivery status and order details" style="margin-bottom: 20px;">
+    <section class="map-arrival-contact" aria-label="Delivery status with map and rider contact">
+
+      <iframe
+        src="https://maps.google.com/maps?q=mandaluyong&t=&z=13&ie=UTF8&iwloc=&output=embed"
+        frameborder="0"
+        allowfullscreen=""
+        aria-label="Map showing delivery route"
+        class="map"
+      ></iframe>
+
+      <div class="arrival-info" role="region" aria-live="polite" aria-atomic="true" aria-label="Arrival time and delivery status">
+        <p><strong>Arrival time</strong><br /><strong>20 - 30 mins</strong></p>
+        <div class="progress-bars" aria-hidden="true">
+          <span class="bar bar1"></span>
+          <span class="bar bar2"></span>
+          <span class="bar bar3"></span>
+          <span class="bar bar4"></span>
+        </div>
+        <p class="status-text"><strong>Preparing your goods</strong></p>
+      </div>
+
+      <div class="contact-rider" role="region" aria-label="Contact your rider">
+        <div class="rider-info">
+          <div class="rider-avatar" aria-hidden="true">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png"
+              alt=""
+              width="48"
+              height="48"
+            />
+          </div>
+          <div>
+            <p><strong>Contact your rider</strong></p>
+            <p>Juan Dela Cruz</p>
+          </div>
+        </div>
+        <button class="contact-chat-btn" aria-label="Contact chat with rider" title="Contact Chat">
+          💬
+        </button>
+      </div>
+    </section>
+
+    <section class="order-details" aria-label="Order details">
+
+      <div class="order-details-header">
+        <span class="order-icon" aria-hidden="true">📋</span>
+        <h2>Order Details</h2>
+      </div>
+
+      <p class="order-market">Mandaluyong Wet Market</p>
+      <p class="order-number">Order number <strong id="orderNumber">#123abc</strong></p>
+
+      <table class="order-table" role="table" aria-describedby="orderSummary">
+        <tbody id="orderTableBody">
+          <!-- Order items will be loaded dynamically -->
+        </tbody>
+      </table>
+
+      <div class="order-totals" aria-label="Order summary" id="orderSummary">
+        <div><strong>Subtotal</strong><span id="subtotal">₱ 0.00</span></div>
+        <div><strong>Delivery fee</strong><span id="deliveryFee">₱ 50.00</span></div>
+      </div>
+
+      <div class="order-totals total">
+        <div><strong>Total</strong><span id="total">₱ 0.00</span></div>
+      </div>
+
+      <div class="payment-method" aria-label="Payment method">
+        <div class="payment-icon" aria-hidden="true">💵</div>
+        <div>Cash on delivery</div>
+      </div>
+
+      <button id="reserveBtn" class="reserve-btn">Reserve Order</button>
+
+    </section>
+  </main>
+<script src="../index/index.js"></script>
+<script src="../index/nav.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const orderData = JSON.parse(localStorage.getItem('freserva_order') || '{}');
+    if (orderData.items) {
+      const orderTableBody = document.getElementById('orderTableBody');
+      orderTableBody.innerHTML = '';
+      orderData.items.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.qty}x</td>
+          <td>${item.name} <span style="font-weight: 400; color: #666;">${item.weight}</span></td>
+          <td>₱ ${(item.price * item.qty).toFixed(2)}</td>
+        `;
+        orderTableBody.appendChild(row);
+      });
+      document.getElementById('subtotal').textContent = '₱ ' + orderData.subtotal.toFixed(2);
+      document.getElementById('deliveryFee').textContent = '₱ ' + orderData.deliveryFee.toFixed(2);
+      document.getElementById('total').textContent = '₱ ' + orderData.total.toFixed(2);
+      document.getElementById('orderNumber').textContent = orderData.orderNumber;
+    }
+  });
+</script>
+
+<footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+        <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+    </div>
+    <div style="text-align: center; margin-bottom: 10px;">
+        <p style="margin: 0; font-weight: 600;">Contact us:</p>
+        <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+        <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+    </div>
+    <div style="display: flex; gap: 20px;">
+        <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+        <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+    </div>
+</footer>
+</body>
+</html>

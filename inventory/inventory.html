@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | Inventory Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        /* --- GLOBAL STYLES & COLOR PALETTE --- */
+        :root {
+            /* Color Variables based on Performance Report Design: */
+            --main-bg: #e6eedc; /* Pale Green */
+            --sidebar-bg: white;
+            --active-bg: #d6e2c5; /* Lightest Green */
+            --dark-green: #314728; /* Text/Header */
+            --medium-green: #557d3e; /* Icons/Active Buttons */
+            --border-color: #c6d2b4;
+            --star-color: gold;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            min-height: 100vh;
+            color: var(--dark-green);
+            overflow-x: hidden;
+        }
+
+        /* --- 1. Fixed Sidebar (Left) --- */
+        .sidebar {
+            width: 250px; 
+            height: 100%;
+            background-color: var(--sidebar-bg); 
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            border-right: 1px solid var(--border-color); 
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sidebar-header h2 {
+            font-size: 18px; 
+            font-weight: 800; 
+            color: var(--dark-green);
+            margin: 0;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: var(--dark-green);
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar ul li.active {
+            background-color: var(--active-bg);
+            font-weight: 700;
+            /* Maaari ring magdagdag ng border sa kaliwa para mas maging malinaw ang active state */
+            border-left: 5px solid var(--medium-green);
+            padding-left: 15px;
+        }
+
+        .sidebar ul li:hover:not(.active) {
+            background-color: var(--active-bg);
+        }
+
+        .sidebar ul li i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: var(--medium-green);
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* --- 2. Fixed Top Navigation Bar --- */
+        .top-navbar {
+            background-color: var(--main-bg); 
+            height: 75px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            margin-left: 250px; 
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 250px;
+            z-index: 90;
+            border-bottom: 1px solid var(--border-color); 
+            padding: 0 20px;
+        }
+        
+        .nav-links-group {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            padding: 10px 20px;
+        }
+
+        .account-cart-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 600;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.2s;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .nav-link span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .cart-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--medium-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-icon i {
+            font-size: 20px;
+            color: white;
+        }
+        
+        .account-dropdown i {
+            font-size: 20px;
+            color: var(--medium-green);
+            margin-left: 5px;
+        }
+
+        /* --- 3. Main Content Area & Inventory Specific Styles --- */
+        .main-content {
+            margin-left: 250px; 
+            padding: 95px 40px 40px 40px;
+        }
+        
+        .inventory-header {
+            margin-bottom: 30px;
+        }
+
+        .inventory-header h1 {
+            color: var(--dark-green);
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* Vendor Profile (Ginaya ang structure/style ng Report card sa taas) */
+        .vendor-profile {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            background: white;
+            padding: 25px; /* Dagdag padding */
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .vendor-avatar {
+            width: 80px; /* Nilakihan ng konti */
+            height: 80px;
+            border-radius: 50%;
+            background-color: #ffd7a0; /* Yellow circle background */
+            overflow: hidden;
+            /* Pinalitan ang border style para maging mas malinis */
+        }
+
+        .vendor-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Adjust image position para mas kita ang mukha */
+            transform: translateY(10px); 
+        }
+        
+        .vendor-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+            color: black;
+        }
+
+        .stars {
+            color: var(--star-color);
+            font-size: 24px; /* Nilakihan */
+            line-height: 1;
+        }
+
+        .edit-profile-btn {
+            background-color: var(--active-bg);
+            color: var(--dark-green);
+            border: 1px solid var(--border-color); /* Added border */
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .edit-profile-btn:hover {
+            background-color: var(--medium-green);
+            color: white;
+        }
+
+        /* Inventory Table (New Card Style) */
+        .inventory-table-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .inventory-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .inventory-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--border-color); /* Mas malinis na header line */
+            font-weight: 700;
+            color: var(--dark-green);
+        }
+
+        .inventory-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--main-bg); /* Lighter divider line */
+            font-weight: 500;
+        }
+        
+        .inventory-table th:nth-child(2),
+        .inventory-table td:nth-child(2) {
+            text-align: center; /* Gitna ang Stock */
+        }
+
+        .edit-btn {
+            background-color: var(--medium-green);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .edit-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>VENDOR DASHBOARD</h2>
+        </div>
+        <div class="sidebar-content">
+            <ul>
+                <li class="active">
+                    <a href="../menu/inventory.html">
+                        <i class="ri-clipboard-line"></i>
+                        Inventory
+                    </a>
+                </li>
+                <li>
+                    <a href="../order/order.html">
+                        <i class="ri-shopping-cart-2-line"></i>
+                        Order
+                    </a>
+                </li>
+                <li>
+                    <a href="../menu/menu.html">
+                        <i class="ri-bar-chart-box-line"></i>
+                        Performance Report
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="top-navbar">
+        <div class="nav-links-group">
+            <a href="../index/index.html" class="nav-link">
+                <div class="nav-icon"><i class="ri-home-fill"></i></div>
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-link" data-requires-auth="true">
+                <div class="nav-icon"><i class="ri-calendar-2-fill"></i></div>
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-link" data-requires-auth="false">
+                <div class="nav-icon"><i class="ri-store-3-fill"></i></div>
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-link">
+                <div class="nav-icon"><i class="ri-information-fill"></i></div>
+                <span>ABOUT US</span>
+            </a>
+        </div>
+        <div class="account-cart-group">
+            <div class="account-dropdown">
+                <span>ACCOUNT</span>
+                <i class="ri-user-3-fill"></i>
+            </div>
+            <div class="cart-icon">
+                <i class="ri-shopping-cart-fill"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="inventory-header">
+            <h1>Inventory Management</h1>
+        </div>
+
+        <div class="vendor-profile">
+            <div class="profile-left">
+                <div class="vendor-avatar">
+                    <img src="https://via.placeholder.com/100/ffd7a0/000000?text=M" alt="Aling Maria's Avatar">
+                </div>
+                <div class="vendor-info">
+                    <h3>Aling Maria's Veggie Stall</h3>
+                    <div class="stars">★★★★★</div>
+                </div>
+            </div>
+            <button class="edit-profile-btn">Edit Profile</button>
+        </div>
+
+        <div class="inventory-table-card">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th style="text-align: center;">Stock</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Patatas</td>
+                        <td>50</td>
+                        <td><button class="edit-btn">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Carrots</td>
+                        <td>50</td>
+                        <td><button class="edit-btn">Edit</button></td>
+                    </tr>
+                    <tr>
+                        <td>Broccoli</td>
+                        <td>50</td>
+                        <td><button class="edit-btn">Edit</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | Inventory Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../index/index.css">
+    <link rel="stylesheet" href="inventory.css">
+    <style>
+        /* Colors and fonts from project */
+        :root {
+            --main-bg: #e6eedc;
+            --sidebar-bg: white;
+            --active-bg: #d6e2c5;
+            --dark-green: #314728;
+            --medium-green: #557d3e;
+            --border-color: #c6d2b4;
+            --star-color: gold;
+            --green-dark: #375a16;
+            --green-light-bg: #e2e7c7;
+            --table-border: #375a16;
+            --button-bg: #cdcaa1;
+            --button-border: #999875;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url("../assets/back1.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: var(--dark-green);
+        }
+
+        main.content {
+            max-width: 720px;
+            padding: 48px 30px;
+            margin: 40px auto;
+            background-color: #f3f5eb;
+            border-radius: 12px;
+            box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
+        }
+
+        h1.title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 44px;
+            letter-spacing: 0.02em;
+        }
+
+        .vendor-profile {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin-bottom: 45px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .vendor-info {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .star-rating {
+            color: var(--star-color);
+            font-size: 20px;
+            user-select: none;
+        }
+
+        .edit-profile-btn {
+            margin-left: auto;
+            background-color: var(--button-bg);
+            border: 1.8px solid var(--button-border);
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 6px 16px;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 0 white;
+            transition: background-color 0.25s ease, color 0.25s ease;
+        }
+        .edit-profile-btn:hover {
+            background-color: var(--dark-green);
+            color: white;
+        }
+
+        /* Inventory table container */
+        .inventory-table {
+            background-color: #fff;
+            width: 380px;
+            padding: 26px 38px 18px 38px;
+            border-radius: 18px;
+            border: 1.7px solid var(--table-border);
+            user-select: none;
+        }
+
+        .inventory-header,
+        .inventory-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-weight: 700;
+        }
+        .inventory-header {
+            border-bottom: 1.7px solid var(--table-border);
+        }
+        .inventory-row {
+            border-bottom: 1.7px solid var(--table-border);
+            font-weight: 600;
+        }
+        .inventory-row:last-child {
+            border-bottom: none;
+        }
+
+        .col-product {
+            flex: 0 0 50%;
+        }
+        .col-stock {
+            flex: 0 0 20%;
+            text-align: center;
+        }
+        .col-action {
+            flex: 0 0 30%;
+            text-align: right;
+            cursor: pointer;
+            color: var(--dark-green);
+        }
+        .col-action:hover {
+            text-decoration: underline;
+        }
+
+        .vendor-section {
+            margin-bottom: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+                <a href="menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="../index/index.html" class="nav-item">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-item" data-requires-auth="true">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-item">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span>ACCOUNT</span><span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <main class="content" role="main" aria-label="Inventory Management">
+        <h1 class="title">Inventory Management</h1>
+
+        <div class="vendor-section">
+            <section class="vendor-profile" aria-label="Vendor Profile">
+                <div class="avatar">
+                    <img src="../assets/alingmaria.png" alt="Aling Maria's Avatar">
+                </div>
+                <div class="vendor-info">
+                    <div>Aling Maria's Veggie Stall</div>
+                    <div class="star-rating" aria-label="Five star rating">★★★★★</div>
+                </div>
+                <button class="edit-profile-btn" type="button">Edit Profile</button>
+            </section>
+
+            <section class="inventory-table" aria-label="Inventory Products">
+                <div class="inventory-header">
+                    <div class="col-product">Product</div>
+                    <div class="col-stock">Stock</div>
+                    <div class="col-action">&nbsp;</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Patatas</div>
+                    <div class="col-stock">50</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Patatas stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Carrots</div>
+                    <div class="col-stock">50</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Carrots stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Broccoli</div>
+                    <div class="col-stock">50</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Broccoli stock">Edit</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="vendor-section">
+            <section class="vendor-profile" aria-label="Vendor Profile">
+                <div class="avatar">
+                    <img src="../assets/mangben.png" alt="Mang Ben's Avatar">
+                </div>
+                <div class="vendor-info">
+                    <div>Mang Ben's Meat Stall</div>
+                    <div class="star-rating" aria-label="Five star rating">★★★★★</div>
+                </div>
+                <button class="edit-profile-btn" type="button">Edit Profile</button>
+            </section>
+
+            <section class="inventory-table" aria-label="Inventory Products">
+                <div class="inventory-header">
+                    <div class="col-product">Product</div>
+                    <div class="col-stock">Stock</div>
+                    <div class="col-action">&nbsp;</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Beef</div>
+                    <div class="col-stock">30</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Beef stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Pork</div>
+                    <div class="col-stock">25</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Pork stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Chicken</div>
+                    <div class="col-stock">40</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Chicken stock">Edit</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="vendor-section">
+            <section class="vendor-profile" aria-label="Vendor Profile">
+                <div class="avatar">
+                    <img src="../assets/mangboy.png" alt="Mang Boy's Avatar">
+                </div>
+                <div class="vendor-info">
+                    <div>Mang Boy's Fish Stall</div>
+                    <div class="star-rating" aria-label="Five star rating">★★★★★</div>
+                </div>
+                <button class="edit-profile-btn" type="button">Edit Profile</button>
+            </section>
+
+            <section class="inventory-table" aria-label="Inventory Products">
+                <div class="inventory-header">
+                    <div class="col-product">Product</div>
+                    <div class="col-stock">Stock</div>
+                    <div class="col-action">&nbsp;</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Tuna</div>
+                    <div class="col-stock">20</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Tuna stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Salmon</div>
+                    <div class="col-stock">15</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Salmon stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Shrimp</div>
+                    <div class="col-stock">35</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Shrimp stock">Edit</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="vendor-section">
+            <section class="vendor-profile" aria-label="Vendor Profile">
+                <div class="avatar">
+                    <img src="../assets/alingluisa.png" alt="Aling Luisa's Avatar">
+                </div>
+                <div class="vendor-info">
+                    <div>Aling Luisa's Fruits Stall</div>
+                    <div class="star-rating" aria-label="Five star rating">★★★★★</div>
+                </div>
+                <button class="edit-profile-btn" type="button">Edit Profile</button>
+            </section>
+
+            <section class="inventory-table" aria-label="Inventory Products">
+                <div class="inventory-header">
+                    <div class="col-product">Product</div>
+                    <div class="col-stock">Stock</div>
+                    <div class="col-action">&nbsp;</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Apple</div>
+                    <div class="col-stock">60</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Apple stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Banana</div>
+                    <div class="col-stock">45</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Banana stock">Edit</div>
+                </div>
+                <div class="inventory-row">
+                    <div class="col-product">Orange</div>
+                    <div class="col-stock">55</div>
+                    <div class="col-action" role="button" tabindex="0" aria-label="Edit Orange stock">Edit</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../index/nav.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

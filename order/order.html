@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | Receive & Confirm Reservation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../index/index.css">
+    <link rel="stylesheet" href="order.css">
+    <style>
+        /* Additional styles for order page */
+        :root {
+            --green-light-bg: #c7d2a7;
+            --green-medium: #6f843a;
+            --green-dark: #375a16;
+            --btn-view-bg: #cccea6;
+            --btn-view-hover-bg: #b3b681;
+            --btn-confirm-bg: #375a16;
+            --btn-confirm-hover-bg: #20320a;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url("../assets/back1.jpg") no-repeat center center fixed;
+            background-size: cover;
+            color: var(--dark-green);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .vendor-info {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 40px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .vendor-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        .vendor-avatar img {
+            width: 150%;
+            height: 150%;
+            object-fit: cover;
+        }
+
+        .vendor-name-and-stars {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vendor-name {
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--green-dark);
+        }
+
+        .stars {
+            color: #fabe1e;
+            font-size: 22px;
+            user-select: none;
+            display: flex;
+            gap: 3px;
+        }
+
+        .stars svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+        }
+
+        .title-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 35px;
+        }
+
+        .page-title {
+            font-weight: 700;
+            font-size: 32px;
+            text-align: center;
+            margin: 0;
+            color: var(--green-dark);
+        }
+
+        .orders-container {
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .order-card {
+            border: 1px solid var(--green-dark);
+            border-radius: 20px;
+            width: 300px;
+            padding: 20px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            user-select: none;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .order-card h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--green-dark);
+        }
+
+        .order-info {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 400;
+            font-size: 16px;
+            color: var(--green-dark);
+        }
+
+        .order-date {
+            font-size: 14px;
+            color: var(--green-medium);
+        }
+
+        .btns {
+            display: flex;
+            gap: 12px;
+        }
+
+        .view-btn {
+            flex: 1;
+            padding: 7px 0;
+            background-color: var(--btn-view-bg);
+            border: 1px solid #9ea882;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--green-dark);
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        .view-btn:hover {
+            background-color: var(--btn-view-hover-bg);
+        }
+
+        .confirm-btn {
+            padding: 8px 20px;
+            background-color: var(--btn-confirm-bg);
+            border: none;
+            font-weight: 700;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .confirm-btn:hover {
+            background-color: var(--btn-confirm-hover-bg);
+        }
+
+        @media (max-width: 650px) {
+            .orders-container {
+                flex-direction: column;
+                gap: 30px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="../menu/inventory.html">Inventory</a>
+                <a href="order.html">Order</a>
+                <a href="../menu/menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="../index/index.html" class="nav-item">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-item" data-requires-auth="true">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-item">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span>ACCOUNT</span><span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content" style="margin-bottom: 20px;">
+        <!-- Vendor Info -->
+        <section class="vendor-info" aria-label="Vendor information">
+            <div class="vendor-avatar" aria-hidden="true">
+                <img src="../assets/alingmaria.png" alt="Aling Maria Avatar">
+            </div>
+            <div class="vendor-name-and-stars">
+                <div class="vendor-name">Aling Maria's Veggie Stall</div>
+                <div class="stars" aria-label="Five stars rating">
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Title -->
+        <div class="title-container">
+            <h1 class="page-title">Receive & Confirm Reservation</h1>
+        </div>
+
+        <!-- Orders -->
+        <section class="orders-container" aria-label="Reservation orders">
+            <article class="order-card" tabindex="0" aria-labelledby="order1-label" role="region" aria-describedby="order1-date">
+                <h2 id="order1-label">Order #1</h2>
+                <div class="order-info">
+                    <span>Juan Dela Cruz</span><span id="order1-date">July 05</span>
+                </div>
+                <div class="order-date">Today</div>
+                <div class="btns">
+                    <button class="view-btn" type="button">View</button>
+                    <button class="confirm-btn" type="button">Confirm</button>
+                </div>
+            </article>
+
+            <article class="order-card" tabindex="0" aria-labelledby="order2-label" role="region" aria-describedby="order2-date">
+                <h2 id="order2-label">Order #2</h2>
+                <div class="order-info">
+                    <span>Ryan Martinez</span><span id="order2-date">July 05</span>
+                </div>
+                <div class="order-date">Today</div>
+                <div class="btns">
+                    <button class="view-btn" type="button">View</button>
+                    <button class="confirm-btn" type="button">Confirm</button>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="../index/nav.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

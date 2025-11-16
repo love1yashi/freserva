@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | My Reservation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../index/index.css">
+    <link rel="stylesheet" href="reservation.css">
+
+    <script>
+        (function() {
+            const accountBtn = document.getElementById('accountBtn');
+            const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+            if (accountBtn) {
+                if (user) {
+                    accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+                } else {
+                    accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+                }
+            }
+        })();
+    </script>
+
+</head>
+<body>
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="../menu/inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+                <a href="../menu/menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="../index/index.html" class="nav-item">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="reservation.html" class="nav-item active" data-requires-auth="true">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-item">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content" style="margin-bottom: 20px;">
+        <div class="hero-title">
+            <h1>My Reservation</h1>
+            <div class="hero-subtitle">View your current and past deliveries of your reserved orders</div>
+        </div>
+
+        <div class="reservation-cards-container">
+            <!-- Reservations will be loaded dynamically -->
+        </div>
+    
+    <script src="../index/index.js"></script>
+    <script src="../index/nav.js"></script>
+    <script src="reservation.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

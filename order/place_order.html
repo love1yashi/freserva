@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | Order Tracking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        /* --- 1. COLOR PALETTE & GLOBAL STYLES --- */
+        :root {
+            /* Consistent Palette from previous designs */
+            --main-bg: #e6eedc; /* Pale Green/Creamy White */
+            --header-bg: white; 
+            --header-border: #C6D2B4; 
+            --main-text: #314728; /* Darkest Green para sa Text */
+            --accent-green: #557D3E; /* Medium Green/Primary Action Color */
+            --light-bg: #F4F8EE; /* Lighter background sa loob ng sections */
+            --border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            color: var(--main-text);
+        }
+
+        body {
+            background-color: var(--main-bg);
+            min-height: 100vh;
+        }
+
+        /* --- 2. HEADER/TOP NAVBAR (Consistent Design) --- */
+        .top-navbar {
+            background-color: var(--header-bg); 
+            height: 75px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            padding: 0 40px;
+            border-bottom: 1px solid var(--header-border); 
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            padding: 5px;
+            cursor: pointer;
+            color: var(--main-text);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+        
+        .logo span {
+             color: var(--accent-green);
+        }
+        
+        /* Stylized image (Motorcycle Delivery Boy) */
+        .logo-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            border: 1px solid var(--accent-green);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Ito ay placeholder image na ginagaya ang delivery rider */
+            content: url('https://via.placeholder.com/100/e6eedc/557D3E?text=🛵');
+        }
+
+        .nav-links-group {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--main-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 0;
+            position: relative;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-link i {
+            font-size: 24px;
+            color: var(--accent-green); 
+        }
+
+        .account-cart-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 600;
+        }
+
+        .cart-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-icon i {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* --- 3. MAIN CONTENT LAYOUT --- */
+        .main-content {
+            padding: 40px 100px;
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .left-column {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .right-column {
+            width: 45%;
+        }
+        
+        /* --- 4. MAP & TRACKING STATUS --- */
+        .map-container {
+            position: relative;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+        
+        .map-placeholder {
+            /* Placeholder for the map image */
+            width: 100%;
+            height: 350px;
+            background: url('https://via.placeholder.com/600x350/c6d2b4/557D3E?text=Map+View');
+            background-size: cover;
+            border-radius: 5px;
+        }
+        
+        .tracking-status-overlay {
+            position: absolute;
+            bottom: 40px; 
+            left: 40px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 80%;
+        }
+
+        .arrival-time h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .arrival-time p {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .progress-step {
+            height: 5px;
+            flex-grow: 1;
+            background-color: var(--accent-green);
+            border-radius: 3px;
+        }
+        
+        .progress-step.inactive {
+            background-color: var(--header-border);
+        }
+        
+        .status-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        /* --- 5. CONTACT RIDER --- */
+        .contact-rider-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .rider-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .rider-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            border: 1px solid var(--accent-green);
+            overflow: hidden;
+        }
+        
+        .rider-avatar i {
+            font-size: 30px;
+            color: var(--accent-green);
+            line-height: 50px;
+            text-align: center;
+            display: block;
+        }
+        
+        .contact-rider-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .chat-icon {
+            font-size: 40px;
+            color: var(--accent-green);
+            cursor: pointer;
+        }
+
+        /* --- 6. ORDER DETAILS (Right Column) --- */
+        .order-details-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        .details-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--header-border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .details-header i {
+            font-size: 24px;
+            color: var(--accent-green);
+        }
+        
+        .details-header h4 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .order-info {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--header-border);
+        }
+        
+        .order-info p {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .order-info strong {
+            font-weight: 700;
+            color: var(--main-text);
+        }
+        
+        /* Item List */
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 5px 0;
+        }
+
+        .item-name {
+            flex-grow: 1;
+        }
+        
+        /* Summary & Totals */
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 16px;
+        }
+        
+        .summary-row.total {
+            font-size: 18px;
+            font-weight: 700;
+            border-top: 1px solid var(--header-border);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        .summary-row.total .price {
+            color: var(--accent-green);
+        }
+        
+        /* Payment Method */
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--header-border);
+        }
+        
+        .payment-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-info i {
+            font-size: 30px;
+            color: var(--accent-green);
+        }
+        
+        .payment-info span {
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="top-navbar">
+        <div class="logo-menu">
+            <i class="ri-menu-line menu-icon"></i>
+            <div class="logo">
+                <div class="logo-image">
+                    <img src="rider.jpg" alt="FRESERVA Rider"> 
+                </div>
+                <span>FRESERVA</span>
+            </div>
+        </div>
+
+        <div class="nav-links-group">
+            <a href="../index/index.html" class="nav-link">
+                <i class="ri-home-fill"></i>
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-link" data-requires-auth="true">
+                <i class="ri-calendar-2-fill"></i>
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-link" data-requires-auth="false">
+                <i class="ri-store-3-fill"></i>
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-link">
+                <i class="ri-information-fill"></i>
+                <span>ABOUT US</span>
+            </a>
+        </div>
+        
+        <div class="account-cart-group">
+            <div class="account-dropdown">
+                ACCOUNT <i class="ri-arrow-down-s-fill"></i>
+            </div>
+            <div class="cart-icon">
+                <i class="ri-shopping-cart-fill"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        
+        <div class="left-column">
+            
+            <div class="map-container">
+                <div class="map-placeholder">
+                    </div>
+                
+                <div class="tracking-status-overlay">
+                    <div class="arrival-time">
+                        <h4>Arrival time</h4>
+                        <p>20 - 30 mins</p>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-step"></div>
+                        <div class="progress-step"></div>
+                        <div class="progress-step inactive"></div>
+                        <div class="progress-step inactive"></div>
+                    </div>
+                    
+                    <div class="status-text">
+                        Preparing your goods
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-rider-card">
+                <div class="rider-info">
+                    <div class="rider-avatar">
+                        <i class="ri-user-line"></i> 
+                    </div>
+                    <div>
+                        <h4>Contact your rider</h4>
+                        <p style="font-size: 14px; font-weight: 600;">Juan Dela Cruz</p>
+                    </div>
+                </div>
+                <i class="ri-message-3-line chat-icon"></i>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="order-details-card">
+                <div class="details-header">
+                    <i class="ri-file-list-3-line"></i>
+                    <h4>Order Details</h4>
+                </div>
+                
+                <div class="order-info">
+                    <p><strong>Mandaluyong Wet Market</strong></p>
+                    <p>Order number: <strong>#123abc</strong></p>
+                </div>
+                
+                <div class="item-list">
+                    <div class="item-row">
+                        <span style="width: 20%;">1x</span>
+                        <span class="item-name">Broccoli 1kg</span>
+                        <span style="width: 20%; text-align: right;">₱ 60.00</span>
+                    </div>
+                    <div class="item-row">
+                        <span style="width: 20%;">2x</span>
+                        <span class="item-name">Patatas 2kg</span>
+                        <span style="width: 20%; text-align: right;">₱ 100.00</span>
+                    </div>
+                    <div class="item-row">
+                        <span style="width: 20%;">2x</span>
+                        <span class="item-name">Pork chops 2kg</span>
+                        <span style="width: 20%; text-align: right;">₱ 200.00</span>
+                    </div>
+                    <div class="item-row">
+                        <span style="width: 20%;">1x</span>
+                        <span class="item-name">Apple 1kg</span>
+                        <span style="width: 20%; text-align: right;">₱ 50.00</span>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-row" style="margin-top: 15px;">
+                        <span>Subtotal</span>
+                        <span class="price">₱ 410.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery fee</span>
+                        <span class="price">₱ 50.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span class="price">₱ 460.00</span>
+                    </div>
+                </div>
+                
+                <div class="payment-method">
+                    <div class="payment-info">
+                        <i class="ri-money-cny-box-line"></i>
+                        <span>Payment method</span>
+                    </div>
+                    <strong>Cash on delivery</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

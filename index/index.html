@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | Fresh Delivery & Reservation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="index.css">
+
+    <script>
+        // Set account button text immediately to prevent flicker
+        (function() {
+            const accountBtn = document.getElementById('accountBtn');
+            const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+            if (accountBtn) {
+                if (user) {
+                    accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+                } else {
+                    accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+                }
+            }
+        })();
+    </script>
+
+</head>
+<body>
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="../menu/inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+                <a href="../menu/menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="index.html" class="nav-item active">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-item" data-requires-auth="true">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-item">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+
+
+    </header>
+
+    <main class="main-content" style="margin-bottom: 20px;">
+        <div class="hero-title">
+            <h1>FRESH DELIVERY & <br>RESERVATION</h1>
+            <div class="hero-subtitle">ORDER NOW FROM LOCAL VENDORS</div>
+        </div>
+
+        <nav class="category-nav">
+            <a href="#vegetables" class="active" data-category="vegetables">Vegetables</a>
+            <a href="#seafood" data-category="seafood">Seafood</a>
+            <a href="#meat" data-category="meat">Meat</a>
+            <a href="#fruits" data-category="fruits">Fruits</a>
+        </nav>
+
+        <div class="product-grid" id="vegetables">
+            <div class="product-card">
+                <img src="../assets/broccolii.png" alt="Broccoli">
+                <h3 class="product-name">Broccoli</h3>
+                <p class="product-price">₱ 60.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/pipino.png" alt="Pipino">
+                <h3 class="product-name">Pipino</h3>
+                <p class="product-price">₱ 20.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/repolyo.png" alt="Repolyo">
+                <h3 class="product-name">Repolyo</h3>
+                <p class="product-price">₱ 25.00</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/patatas.png" alt="Patatas">
+                <h3 class="product-name">Patatas</h3>
+                <p class="product-price">₱ 50.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+        </div>
+        <div class="product-grid" id="seafood">
+            <div class="product-card">
+                <img src="../assets/tilapia.png" alt="Tilapia"> 
+                <h3 class="product-name">Tilapia</h3>
+                <p class="product-price">₱ 160.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/bangus.png" alt="Bangus">
+                <h3 class="product-name">Bangus</h3>
+                <p class="product-price">₱ 180.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/hipon.png" alt="Hipon">
+                <h3 class="product-name">Hipon</h3>
+                <p class="product-price">₱ 400.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+        </div>
+
+        <div class="product-grid" id="meat">
+            <div class="product-card">
+                <img src="../assets/pork.png" alt="Pork">
+                <h3 class="product-name">Pork Liempo</h3>
+                <p class="product-price">₱ 320.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/chicken.png" alt="Chicken">
+                <h3 class="product-name">Chicken Leg</h3>
+                <p class="product-price">₱ 180.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/beef.png" alt="Beef">
+                <h3 class="product-name">Beef Brisket</h3>
+                <p class="product-price">₱ 450.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+        </div>
+
+        <div class="product-grid" id="fruits">
+            <div class="product-card">
+                <img src="../assets/banana.png" alt="Banana">
+                <h3 class="product-name">Banana (Lakatan)</h3>
+                <p class="product-price">₱ 60.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/apple.png" alt="Apple">
+                <h3 class="product-name">Apple (Fuji)</h3>
+                <p class="product-price">₱ 180.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+
+            <div class="product-card">
+                <img src="../assets/mango.png" alt="Mango">
+                <h3 class="product-name">Mango (Carabao) </h3>
+                <p class="product-price">₱ 120.00/kg</p>
+                <button class="reserve-btn">Reserve</button>
+            </div>
+        </div>
+    </main>
+    
+    <script src="index.js"></script>
+    <script src="nav.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

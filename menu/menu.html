@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard Final - Polished Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../index/index.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <script>
+        // Set account button text immediately to prevent flicker
+        (function() {
+            const accountBtn = document.getElementById('accountBtn');
+            const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+            if (accountBtn) {
+                if (user) {
+                    accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+                } else {
+                    accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+                }
+            }
+        })();
+    </script>
+
+    <style>
+        /* Performance Report specific styles */
+        body {
+            background-color: #e6eedc;
+            background-image: url('../assets/back1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 95px 40px 40px 40px;
+        }
+
+        /* Vendor Profile (Malaki at malinaw) */
+        .vendor-profile {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .vendor-avatar {
+            width: 100px; /* Nilakihan */
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ffd7a0;
+            overflow: hidden;
+            box-shadow: 0 0 0 3px white;
+            border: 1px solid var(--dark-border);
+        }
+
+    
+
+        .vendor-info h3 {
+            font-size: 24px; /* Nilakihan */
+            font-weight: 700;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .stars {
+            color: gold;
+            font-size: 30px; /* Nilakihan */
+            line-height: 1;
+        }
+
+        /* Performance Report Card (Malaki at malinaw) */
+        .report-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .report-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--text-dark);
+        }
+
+        .most-ordered h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        .bar-chart-section {
+            display: flex;
+            gap: 30px;
+        }
+
+        .bar-chart {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            height: 100%;
+        }
+
+        .bar {
+            width: 30px;
+            background: var(--primary-green);
+            border-radius: 4px;
+        }
+
+        .bar-1 { height: 40%; }
+        .bar-2 { height: 60%; }
+        .bar-3 { height: 80%; }
+        .bar-4 { height: 90%; }
+
+        .growth-arrow {
+            position: absolute;
+            top: 0;
+            right: 0;
+            color: var(--primary-green);
+            font-size: 32px;
+            transform: rotate(45deg);
+        }
+
+        .progress-list {
+            flex: 1;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-item span {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .progress-bar {
+            background: var(--header-bg);
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary-green);
+            border-radius: 6px;
+        }
+
+        .broccoli { width: 80%; }
+        .carrots { width: 65%; }
+        .potatoes { width: 45%; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="../menu/inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+                <a href="../menu/menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="../index/index.html" class="nav-item active">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-item" data-requires-auth="true">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item" data-requires-auth="false">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="../about/about.html" class="nav-item">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="vendor-profile">
+            <div class="vendor-avatar">
+                <img src="../assets/alingmaria.png" alt="Aling Maria's Avatar"> 
+            </div>
+            <div class="vendor-info">
+                <h3>Aling Maria's Veggie Stall</h3>
+                <div class="stars">
+                    ★★★★★
+                </div>
+            </div>
+        </div>
+
+        <div class="report-card">
+            <h2>PERFORMANCE REPORT</h2>
+            <div class="report-content">
+                <div class="most-ordered">
+                    <h3>Most ordered items</h3>
+                    <div class="bar-chart-section">
+                        <div class="bar-chart">
+                            <div class="bars">
+                                <div class="bar bar-1"></div>
+                                <div class="bar bar-2"></div>
+                                <div class="bar bar-3"></div>
+                                <div class="bar bar-4"></div>
+                            </div>
+                            <div class="growth-arrow">
+                                <i class="ri-arrow-right-up-line"></i>
+                            </div>
+                        </div>
+                        <div class="progress-list">
+                            <div class="progress-item">
+                                <span>Broccoli</span>
+                                <div class="progress-bar">
+                                    <div class="progress broccoli"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span>Carrots</span>
+                                <div class="progress-bar">
+                                    <div class="progress carrots"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <span>Patatas</span>
+                                <div class="progress-bar">
+                                    <div class="progress potatoes"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set account button text immediately to prevent flicker
+        (function() {
+            const accountBtn = document.getElementById('accountBtn');
+            const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+            if (accountBtn) {
+                if (user) {
+                    accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+                } else {
+                    accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+                }
+            }
+        })();
+    </script>
+
+    <script src="../index/index.js"></script>
+    <script src="../index/nav.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,43 @@
+/* About page specific styles */
+
+/* Override header background and height to match the green part of index page header */
+.header {
+    background: var(--header-bg) !important; /* Use only the green background, no white gradient */
+    height: 50px !important; /* Match the green part height from index page (56% of 200px) */
+}
+
+/* Override nav-item.active to remove conflicting styles */
+.nav-item.active {
+    border-bottom: none !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Override account button text color to white */
+.account-btn {
+    color: white !important;
+}
+
+/* Ensure dropdown content has proper styling */
+.account-dropdown .dropdown-content {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.account-dropdown .dropdown-content a {
+    color:  #eee;
+    text-decoration: none;
+    display: block;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.account-dropdown .dropdown-content a:last-child {
+    border-bottom: none;
+}
+
+.account-dropdown .dropdown-content a:hover {
+    background: var(--light-bg);
+}

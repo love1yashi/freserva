@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRESERVA | About Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../index/index.css">
+    <link rel="stylesheet" href="about.css">
+
+    <script>
+        // Set account button text immediately to prevent flicker
+        (function() {
+            const accountBtn = document.getElementById('accountBtn');
+            const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
+            if (accountBtn) {
+                if (user) {
+                    accountBtn.innerHTML = `<span>${user.username}</span><span class="dropdown-arrow">▼</span>`;
+                } else {
+                    accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
+                }
+            }
+        })();
+    </script>
+
+    <style>
+        /* --- 1. COLOR PALETTE & GLOBAL STYLES --- */
+        :root {
+            /* Mula sa Homepage/About Us Design */
+            --header-bg: #E6EEDC; /* Pale Green/Creamy White sa taas */
+            --header-border: #C6D2B4; /* Border line */
+            --main-text: #314728; /* Darkest Green para sa Text */
+            --accent-green: #557D3E; /* Medium Green/Primary Action Color */
+            --light-bg: #F4F8EE; /* Lighter background sa loob ng sections */
+            
+            /* Para sa dark green overlay ng background image */
+            --bg-overlay: rgba(40, 60, 20, 0.35); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            color: var(--main-text);
+        }
+
+        body {
+            /* Background image na ginaya mula sa Login page na may overlay */
+            background: url('../assets/back1.jpg') no-repeat center center fixed; 
+            background-size: cover; /* Cover the entire background */
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Dark Green Overlay para sa background */
+        body::before {
+            content: '';
+            position: fixed; /* Fixed ang overlay */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-overlay); 
+            z-index: -1;
+        }
+s
+     
+        .logo-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .menu-icon {
+            font-size: 24px;
+            padding: 5px;
+            cursor: pointer;
+            color: var(--main-text);
+        }
+
+        .logo h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+
+        .nav-links-group {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--main-text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 0;
+            position: relative;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-link.active {
+            color: var(--accent-green); 
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-green);
+        }
+
+        .nav-link i {
+            font-size: 24px;
+            color: var(--accent-green); 
+        }
+
+        .account-cart-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-weight: 600;
+        }
+
+        .cart-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .cart-icon i {
+            font-size: px;
+            color: white;
+        }
+
+        /* Account button override to match index page */
+        .account-btn {
+            background: var(--accent-green);
+            color: white !important;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 40px;
+        }
+
+        /* --- 3. MAIN CONTENT (Introduction) --- */
+        .main-content {
+            padding: 40px 100px; /* Dagdag padding para sa gilid */
+            text-align: center;
+        }
+
+        .intro-text-box {
+            background: rgba(0, 0, 0, 0.4); /* Halos puti background para mabasa */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            text-align: left;
+            backdrop-filter: blur(8px);
+        }
+
+        .intro-text-box h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .intro-text-box p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #a09e9e; /* Darker text for readability */
+        }
+        
+        .intro-text-box strong {
+            color: var(--accent-green); 
+        }
+
+        /* --- 4. FEATURE SECTIONS --- */
+        .feature-titles {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin: 0 auto 24px;
+            padding: 0 20px;
+        }
+        
+        .feature-titles h3 {
+            width: auto;
+            margin: 0;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Adjust positioning for each heading */
+        .feature-titles h3:first-child {
+            left: 18%; /* Center above first group */
+        }
+
+        .feature-titles h3:last-child {
+            left: 28%; /* Center above second group */
+        }
+
+        /* Reset positioning on mobile */
+        @media (max-width: 900px) {
+            .feature-titles h3:first-child,
+            .feature-titles h3:last-child {
+                left: 50%;
+            }
+        }
+
+        .feature-section {
+            display: block; /* override display:contents so groups are treated as items */
+        }
+
+        /* Make all feature cards equal size and centered */
+.feature-cards-container { 
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* fixed equal card size, centered content */
+.feature-card {
+    width: 180px;               /* equal width for all cards */
+    min-width: 180px;
+    height: 240px;              /* equal height for all cards */
+    flex: 0 0 180px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 14px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* vertically center title + icon area */
+    align-items: center;
+    text-align: center;
+    margin: 0;
+}
+
+/* Ensure title and copy are vertically aligned and consistent */
+.feature-card h4 {
+    font-size: 13px;
+    color: #557D3E;
+    margin: 8px 0;
+    min-height: 48px;           /* forces uniform title height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    line-height: 1.2;
+    padding: 0 6px;
+}
+
+.feature-card p {
+    font-size: 11px;
+    color: #a09e9e;
+    margin: 0;
+    line-height: 1.3;
+    display: block;
+    padding: 0 6px;
+}
+
+/* small gap between cards inside each group */
+.feature-section .feature-cards-container .feature-card:not(:last-child) {
+    margin-right: 8px;
+}
+
+/* keep a larger gap between the two groups (first group's last card) */
+.features-wrapper .feature-section:first-child .feature-cards-container .feature-card:last-child {
+    margin-right: 30px;
+}
+
+/* responsive: shrink cards slightly on medium screens */
+@media (max-width: 1100px) {
+    .feature-card {
+        width: 160px;
+        min-width: 160px;
+        height: 220px;
+        flex: 0 0 160px;
+    }
+    .features-wrapper { gap: 28px; }
+    .features-wrapper .feature-section:first-child .feature-cards-container .feature-card:last-child {
+        margin-right: 24px;
+    }
+}
+
+/* on narrow screens allow horizontal scroll instead of wrapping */
+@media (max-width: 900px) {
+    .feature-cards-container { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .feature-card { width: 150px; min-width: 150px; height: 210px; flex: 0 0 150px; }
+    .features-wrapper { gap: 20px; padding: 0 12px; }
+}
+
+/* small screens: full width stacked */
+        @media (max-width: 600px) {
+            .feature-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .feature-titles {
+                flex-direction: column;
+                gap: 12px;
+                align-items: center;
+                padding: 0 12px;
+            }
+            .feature-titles h3 { font-size: 18px; }
+            .main-content { padding: 20px 12px; }
+            .intro-text-box { padding: 16px; }
+        }
+
+        /* --- feature titles: colored badge containers like HOW FRESERVA WORKS --- */
+        .feature-titles {
+            max-width: 1100px;
+            margin: 0 auto 18px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+
+        .feature-titles h3 {
+            background: rgba(0, 0, 0, 0.4);
+            color: #557D3E;
+            padding: 10px 28px;
+            border-radius: 8px;
+            font-size: 22px;
+            font-weight: 700;
+            width: 45%;
+            text-align: center;
+            margin: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* small screens: stack headings and keep centered */
+        @media (max-width: 640px) {
+            .feature-titles {
+                flex-direction: column;
+                gap: 12px;
+                padding: 0 12px;
+            }
+            .feature-titles h3 {
+                width: 100%;
+                font-size: 18px;
+                padding: 8px 18px;
+            }
+        }
+
+        /* center the whole feature area (wrapper) and keep two groups with gap */
+        .features-wrapper {
+            display: flex;
+            justify-content: center;    /* center horizontally */
+            align-items: flex-start;
+            gap: 40px;                  /* space between first three and last three */
+            max-width: 1100px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        /* Feature icon (increase size & keep centered) */
+.card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 84px;               /* overall circle size */
+    height: 84px;
+    font-size: 36px;          /* icon glyph size */
+    color: #a09e9e;
+    border: 3px solid var(--accent-green);
+    border-radius: 50%;
+    padding: 8px;             /* inner spacing */
+    margin-bottom: 14px;
+    background: rgba(0,0,0,0.12);
+    box-sizing: border-box;
+}
+
+/* Slightly smaller icons on medium screens */
+@media (max-width: 1100px) {
+    .card-icon { width: 68px; height: 68px; font-size: 30px; padding: 6px; border-width: 2px; }
+}
+
+/* Small screens: reduce to avoid overflow */
+@media (max-width: 900px) {
+    .card-icon { width: 58px; height: 58px; font-size: 24px; padding: 5px; }
+}
+    </style>
+</head>
+<body>
+    <!-- Replace only the header section -->
+    <header class="header">
+        <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" type="button">
+            <svg viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <line class="bar" x1="2" y1="3" x2="22" y2="3"/>
+                <line class="bar" x1="2" y1="9" x2="22" y2="9"/>
+                <line class="bar" x1="2" y1="15" x2="22" y2="15"/>
+            </svg>
+        </button>
+
+        <div class="menu-sidebar" id="menuSidebar" aria-hidden="true">
+            <div class="sidebar-header">
+                <h2>VENDOR DASHBOARD</h2>
+                <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Close sidebar">&times;</button>
+            </div>
+            <div class="sidebar-content">
+                <a href="../menu/inventory.html">Inventory</a>
+                <a href="../order/order.html">Order</a>
+                <a href="../menu/menu.html">Performance Report</a>
+            </div>
+        </div>
+
+        <div class="logo">
+            <img src="../assets/logo.png" alt="Freserva logo" class="logo-image">
+        </div>
+
+        <nav class="nav-menu" role="navigation" aria-label="Main navigation">
+            <a href="../index/index.html" class="nav-item">
+                <img src="../assets/home.png" class="icon" alt="Home">
+                <span>HOME</span>
+            </a>
+            <a href="../reservation/reservation.html" class="nav-item">
+                <img src="../assets/reservation.png" class="icon" alt="My Reservation">
+                <span>MY RESERVATION</span>
+            </a>
+            <a href="../vendor/vendors.html" class="nav-item">
+                <img src="../assets/vendors.png" class="icon" alt="Vendors">
+                <span>VENDORS</span>
+            </a>
+            <a href="about.html" class="nav-item active">
+                <img src="../assets/about.png" class="icon" alt="About Us">
+                <span>ABOUT US</span>
+            </a>
+        </nav>
+
+        <div class="nav-right">
+            <div class="account-dropdown">
+                <button class="account-btn" id="accountBtn" type="button" aria-expanded="false">
+                    <span class="dropdown-arrow">▼</span>
+                </button>
+
+                <div class="dropdown-content" aria-hidden="true">
+                    <a href="../login/login.html">Login</a>
+                    <a href="../login/signup.html">Sign up</a>
+                </div>
+            </div>
+
+            <a href="../cart/cart.html" class="cart-btn" aria-label="Cart">
+                <img src="../assets/cart.png" class="cart-image" alt="Cart">
+            </a>
+        </div>
+    </header>
+
+
+    <div class="main-content">
+        <div class="intro-text-box">
+            <p>Welcome to <strong>FRESERVA</strong>, the Philippines' first digital platform dedicated to modernizing your neighborhood palengke experience.</p>
+
+            <p>Our website brings together the best of traditional wet markets and modern convenience, letting you browse fresh produce, seafood, and meat straight from trusted local vendors. Whether you're craving the freshest vegetables, tender pork, or vibrant seasonal fruits, <strong>FRESERVA</strong> makes it easy to reserve your market favorites online and delivered right to your doorstep.</p>
+
+            <p>With just a few clicks, you can discover the rich variety of goods your community palengke has to offer—no more long lines, crowded aisles, or heavy bags to carry. Through real-time inventory updates and digital payment options, we make shopping safe, simple, and transparent.</p>
+
+            <p>By supporting small vendors and creating decent work for delivery riders and tech support staff, we help sustain local livelihoods and bring economic growth to our communities. Explore our website and see why more families, professionals, and market-goers are choosing <strong>FRESERVA</strong> to transform how they shop for fresh, affordable ingredients.</p>
+
+            <p>So whether you're planning a hearty family meal or simply stocking up for the week, <strong>FRESERVA</strong> is here to connect you with your favorite palengke goods—fresh, fast, and always full of Filipino spirit. Wherever you are, we're committed to delivering convenience and quality, bundled with the warmth of community every time.</p>
+        </div>
+        
+        <div class="feature-titles">
+            <h3>HOW FRESERVA WORKS</h3>
+           
+            <h3>WHY FRESERVA?</h3>
+        </div>
+
+        <!-- Replace the inline wrapper with the new class -->
+        <!-- before: <div style="display: flex; justify-content: space-around;"> -->
+        <div class="features-wrapper">
+            
+            <div class="feature-section">
+                <div class="feature-cards-container">
+                    <div class="feature-card">
+                        <i class="ri-computer-line card-icon"></i>
+                        <h4>Browse Local Vendors</h4>
+                        <p>Explore variety of vendors in your area</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ri-calendar-check-line card-icon"></i>
+                        <h4>Reserve and Pay Digitally</h4>
+                        <p>Make reservation and payments online</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ri-truck-line card-icon"></i>
+                        <h4>Schedule Deliveries</h4>
+                        <p>Never miss a delivery — shop smart and schedule with ease</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-section">
+                <div class="feature-cards-container">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-certificate card-icon"></i>
+                        <h4>LGU-Registered Vendors</h4>
+                        <p>Trustworthy vendors verified by local government units</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ri-timer-2-line card-icon"></i>
+                        <h4>Real-Time Price Monitoring</h4>
+                        <p>Stay informed with latest market prices</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="ri-money-cny-box-line card-icon"></i>
+                        <h4>Cashless & Contactless Payments</h4>
+                        <p>Enjoy secure and convenient payments</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../index/nav.js"></script>
+
+    <footer style="background-color: #9fb585; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; border-radius: 8px; margin: 40px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: 'Poppins', sans-serif; color: #314728;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+            <img src="../assets/logo.png" alt="Freserva logo" style="width: 50px; height: 50px;">
+            <span style="font-size: 24px; font-weight: 800; color: #557D3E;">FRESERVA</span>
+        </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <p style="margin: 0; font-weight: 600;">Contact us:</p>
+            <p style="margin: 5px 0;"><a href="mailto:freserva@gmail.com" style="color: #557d3e; text-decoration: none;">freserva@gmail.com</a></p>
+            <p style="margin: 5px 0;"><a href="tel:+639000000000" style="color: #557d3e; text-decoration: none;">+63 900 000 0000</a></p>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="https://facebook.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Facebook</a>
+            <a href="https://instagram.com/freserva" style="color: #557d3e; text-decoration: none; font-weight: 600;">Instagram</a>
+        </div>
+    </footer>
+</body>
+</html>
