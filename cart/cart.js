@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function loadCart() {
         const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
         if (!user) {
-            window.location.href = '../login/login.html';
+            window.location.href = '..//login/login.html';
             return;
         }
 
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
     placeOrderBtn.addEventListener('click', () => {
         const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
         if (!user) {
-            window.location.href = '../login/login.html';
+            window.location.href = '..//login/login.html';
             return;
         }
 
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
         loadCart(); // Refresh cart
 
         // Navigate to order placed page
-        window.location.href = '../order/order-placed.html';
+        window.location.href = '..//order/order-placed.html';
     });
 
     // Function to update totals based on selected items

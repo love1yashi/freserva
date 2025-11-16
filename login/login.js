@@ -13,7 +13,7 @@ function handleLogin(event) {
         localStorage.setItem('freserva_user', JSON.stringify(user));
         
         // Get redirect URL or default to index
-        const redirectUrl = localStorage.getItem('redirectAfterLogin') || '../index/index.html';
+        const redirectUrl = localStorage.getItem('redirectAfterLogin') || '..//index/index.html';
         localStorage.removeItem('redirectAfterLogin'); // Clear stored redirect
         
         // Show success message and redirect

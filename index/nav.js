@@ -54,17 +54,17 @@ document.addEventListener('DOMContentLoaded', function () {
                         localStorage.removeItem('freserva_user');
                         // Cart is per user, so no need to clear global cart
                         // Redirect to home or login
-                        window.location.href = '../index/index.html';
+                        window.location.href = '..//index/index.html';
                     });
                 }
             }
         } else {
-            // Not logged in: show ACCOUNT and login/signup
+            // Not logged in: show ACCOUNT and /login/signup
             accountBtn.innerHTML = `<span>ACCOUNT</span><span class="dropdown-arrow">▼</span>`;
             if (dropdownContent) {
                 dropdownContent.innerHTML = `
-                    <a href="../login/login.html">Login</a>
-                    <a href="../login/signup.html">Sign up</a>
+                    <a href="..//login/login.html">Login</a>
+                    <a href="..//login/signup.html">Sign up</a>
                 `;
             }
         }
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
         logoEl.addEventListener('click', function (e) {
             // prefer existing anchor inside .logo
             const a = logoEl.querySelector('a[href]') || logoEl.closest('a[href]');
-            const href = a ? a.getAttribute('href') : (logoEl.dataset.href || '../index/index.html');
+            const href = a ? a.getAttribute('href') : (logoEl.dataset.href || '..//index/index.html');
             if (!href) return;
             // allow normal anchor default if clicked on the anchor itself
             if (e.target.closest('a')) return;
@@ -168,10 +168,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Preload other pages for faster navigation
     const pagesToPreload = [
-        '../reservation/reservation.html',
-        '../vendor/vendors.html',
-        '../about/about.html',
-        '../cart/cart.html'
+        '..//reservation/reservation.html',
+        '..//vendor/vendors.html',
+        '..//about/about.html',
+        '..//cart/cart.html'
     ];
 
     pagesToPreload.forEach(href => {

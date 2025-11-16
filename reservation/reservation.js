@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const user = JSON.parse(localStorage.getItem('freserva_user') || 'null');
         if (!user) {
             // Redirect to login if not logged in
-            window.location.href = '../login/login.html';
+            window.location.href = '..//login/login.html';
             return;
         }
 

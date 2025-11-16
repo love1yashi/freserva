@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!user) {
                 // Redirect to login if not logged in
                 localStorage.setItem('redirectAfterLogin', window.location.href);
-                window.location.href = '../login/login.html';
+                window.location.href = '..//login/login.html';
                 return;
             }
 
@@ -216,6 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Click -> open cart page
     cartBtn.addEventListener('click', function (e) {
         // Navigate immediately without fade transition
-        window.location.href = '../cart/cart.html';
+        window.location.href = '..//cart/cart.html';
     });
 });
